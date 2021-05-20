@@ -54,7 +54,7 @@ cd tensorflow1
 ```bash
 git clone --depth 1 https://github.com/tensorflow/models.git
 ```
-เราจำเป็นต้องแก้ไข PYTHONPATH environment variable เพื่อชี้ไปที่ไดเรกทอรีบางรายการภายในที่เก็บ TensorFlow ที่เราเพิ่งดาวน์โหลด เราต้องการให้ตั้งค่า PYTHONPATH ทุกครั้งที่เปิดเทอร์มินัลดังนั้นเราจึงต้องแก้ไขไฟล์. bashrc เปิดโดยการออก:
+เราจำเป็นต้องแก้ไข PYTHONPATH environment variable เพื่อชี้ไปที่ไดเรกทอรีบางรายการภายในที่เก็บ TensorFlow ที่เราเพิ่งดาวน์โหลด เราต้องการให้ตั้งค่า PYTHONPATH ทุกครั้งที่เปิดเทอร์มินัลดังนั้นเราจึงต้องแก้ไขไฟล์. bashrc เปิดโดย:
 ```bash
 sudo nano ~/.bashrc
 ```
@@ -62,4 +62,17 @@ sudo nano ~/.bashrc
 ```bash
 export PYTHONPATH=$PYTHONPATH:/home/pi/tensorflow1/models/research:/home/pi/tensorflow1/models/research/slim
 ```
-
+เราจำเป็นต้องใช้ Protoc เพื่อคอมไพล์ไฟล์ Protocol Buffer (.proto) ที่ Object Detection API ใช้ไฟล์ .proto ที่อยู่ใน /research/object_detection/protos แต่เราจำเป็นต้องดำเนินการคำสั่งจากไดเร็กทอรี /research :
+```bash
+cd /home/pi/tensorflow1/models/research
+protoc object_detection/protos/*.proto --python_out=.
+```
+จากนั้นย้ายไปที่ไดเร็กทอรี object_detection:
+```bash
+cd /home/pi/tensorflow1/models/research/object_detection
+```
+ดาวน์โหลดโมเดล SSDLite-MobileNet:
+```bash
+wget http://download.tensorflow.org/models/object_detection/ssdlite_mobilenet_v2_coco_2018_05_09.tar.gz
+tar -xzvf ssdlite_mobilenet_v2_coco_2018_05_09.tar.gz
+```
