@@ -8,11 +8,11 @@ sudo apt-get dist-upgrade
 ```bash
 sudo raspi-config
 ```
-• เลือก 'Camera' option
-• กดปุ่ม Enter key เพื่อ enable การใช้งาน
-• เลือก “Finish”
-• เลือก reboot your Raspberry Pi.
-
+• เลือก 'Camera' option<br/>
+• กดปุ่ม Enter key เพื่อ enable การใช้งาน<br/>
+• เลือก “Finish”<br/>
+• เลือก reboot your Raspberry Pi.<br/>
+<br/>
 ติดตังLibrary โดยใชคำสั่ง:
 ```bash
 sudo apt-get install python-picamera
