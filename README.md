@@ -45,3 +45,21 @@ sudo apt-get install protobuf-compiler
 ```
 
 ## 6. Set up TensorFlow Directory Structure and PYTHONPATH Variable
+สร้างโฟลเดอร์ “tensorflow1” และ cd เข้าไป.
+```bash
+mkdir tensorflow1
+cd tensorflow1
+```
+ดาวน์โหลด tensorflow repository จาก GitHub:
+```bash
+git clone --depth 1 https://github.com/tensorflow/models.git
+```
+เราจำเป็นต้องแก้ไข PYTHONPATH environment variable เพื่อชี้ไปที่ไดเรกทอรีบางรายการภายในที่เก็บ TensorFlow ที่เราเพิ่งดาวน์โหลด เราต้องการให้ตั้งค่า PYTHONPATH ทุกครั้งที่เปิดเทอร์มินัลดังนั้นเราจึงต้องแก้ไขไฟล์. bashrc เปิดโดยการออก:
+```bash
+sudo nano ~/.bashrc
+```
+และในบรรทัดสุดท้ายให้เพิ่ม:
+```bash
+export PYTHONPATH=$PYTHONPATH:/home/pi/tensorflow1/models/research:/home/pi/tensorflow1/models/research/slim
+```
+
