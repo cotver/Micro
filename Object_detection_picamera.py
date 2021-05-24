@@ -30,18 +30,22 @@ import sys
 
 import RPi.GPIO as GPIO
 import time
+import paho.mqtt.client as mqtt
+
+mqttc = mqtt.Client()
+mqttc.connect("broker.mqttdashboard.com", 1883)
 
 # Set the pin designation type to GPIO.BCM to use BCM numbering convention
 GPIO.setmode (GPIO.BCM)
 
 
-GPIO.setup(2 ,GPIO.OUT)
-GPIO.setup(3 ,GPIO.OUT)
-GPIO.setup(4 ,GPIO.OUT)
+GPIO.setup(17 ,GPIO.OUT)
+GPIO.setup(27 ,GPIO.OUT)
+GPIO.setup(22 ,GPIO.OUT)
 
-GPIO.output(2 ,True)
-GPIO.output(3 ,True)
-GPIO.output(4 ,True)
+GPIO.output(17 ,True)
+GPIO.output(27 ,True)
+GPIO.output(22 ,True)
 
 # Set up camera constants
 IM_WIDTH = 1280
@@ -159,19 +163,49 @@ if camera_type == 'picamera':
             [detection_boxes, detection_scores, detection_classes, num_detections],
             feed_dict={image_tensor: frame_expanded})
 
+        #pub
+        mouse = False
+        keyboard = False
+        laptop = False
+        sen = "There "
+        count = 0
         #control light
         if(73 in classes[0]):
-            GPIO.output(2,False)
+            GPIO.output(17,False)
+            laptop = True
+            count+=1
         else:
-            GPIO.output(2 ,True)
+            GPIO.output(17 ,True)
+
         if(74 in classes[0]):
-            GPIO.output(3 ,False)
+            mouse = True
+            GPIO.output(27 ,False)
+            count+=1
         else:
-            GPIO.output(3 ,True)
+            GPIO.output(27 ,True)
+
         if(76 in classes[0]):
-            GPIO.output(4 ,False)
+            keyboard = True
+            GPIO.output(22 ,False)
+            count+=1
         else:
-            GPIO.output(4 ,True)
+            GPIO.output(22 ,True)
+
+        if(count == 0):
+            sen= sen+"is nothing"
+        elif(count == 1):
+            sen = sen + "is"
+        else:
+            sen =sen + "are"
+        
+        if(mouse):
+            sen =sen + " mouse"
+        if(keyboard):
+            sen =sen + " keyboard"
+        if(laptop):
+            sen =sen + " laptop"
+
+        mqttc.publish("project/micro", sen)
 
         # Draw the results of the detection (aka 'visulaize the results')
         vis_util.visualize_boxes_and_labels_on_image_array(
