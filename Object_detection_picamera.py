@@ -162,19 +162,15 @@ if camera_type == 'picamera':
         #control light
         if(73 in classes[0]):
             GPIO.output(2,False)
-            GPIO.output(3 ,True)
-            GPIO.output(4 ,True)
-        elif(74 in classes[0]):
-            GPIO.output(2 ,True)
-            GPIO.output(3 ,False)
-            GPIO.output(4 ,True)
-        elif(76 in classes[0]):
-            GPIO.output(2 ,True)
-            GPIO.output(3 ,True)
-            GPIO.output(4 ,False)
         else:
             GPIO.output(2 ,True)
+        if(74 in classes[0]):
+            GPIO.output(3 ,False)
+        else:
             GPIO.output(3 ,True)
+        if(76 in classes[0]):
+            GPIO.output(4 ,False)
+        else:
             GPIO.output(4 ,True)
 
         # Draw the results of the detection (aka 'visulaize the results')
